@@ -1,6 +1,7 @@
 # IA_genetics_algorithms
 
 Equipe: Igor Paulo Domingues Martins
+
 Problema: Aplicação de algoritmos genéricos (crossover, mutação, e substituição) com a finalidade de formar jogadores mais habilidosos. 
 
 Dataset: Trata-se de uma planilha com dados de jogadores de futebol, com muitas habilidades caracterizadas com um número de 0 a 100. 
