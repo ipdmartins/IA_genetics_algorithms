@@ -28,13 +28,12 @@ public class Generator {
 	private int currentColumnNumber;
 	private int totalNumberRows;
 	private int threshold;
+	private int counter;
 	private ArrayList<Integer> idList;
 	private ArrayList<Integer> overallist;
 	
 	public void setThreshold(int threshold) {
 		this.threshold = threshold;
-		idList = new ArrayList<Integer>();
-		overallist = new ArrayList<Integer>();
 	}
 
 	public void sheetReader(String path) {
@@ -72,7 +71,9 @@ public class Generator {
 		System.out.println();
 
 		boolean cond = true;
+		counter = 0;
 		while (cond) {
+			counter++;
 			for (int i = 2; i < columns; i++) {
 				sortedFitness = new ArrayList<Double>();
 				selectedPairs = new ArrayList<Double>();
@@ -81,6 +82,9 @@ public class Generator {
 				generateFitness();// 2 passing only the 1st column pace_acceleration
 			}
 
+			//calculating the new overall
+			idList = new ArrayList<Integer>();
+			overallist = new ArrayList<Integer>();
 			for (int i = 1; i < totalNumberRows; i++) {
 				int newOverall = 0;
 				for (int j = 2; j < columns; j++) {
@@ -97,13 +101,9 @@ public class Generator {
 			}
 			newPopulation(columns);
 		}
-		System.out.println(idList.toString());
-		System.out.println(overallist.toString());
-
-		JOptionPane.showMessageDialog(null, "Found new overall\n"+ 
+		JOptionPane.showMessageDialog(null, "Found new threshold in "+counter+" generations\n"+ 
 				"ids: "+idList.toString()+"\n"+
 				"overall: "+overallist.toString());
-				
 	}
 
 	public void generateFitness() {
@@ -277,6 +277,7 @@ public class Generator {
 			}
 			System.out.println();
 		}
+		System.out.println();
 	}
 
 }

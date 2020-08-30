@@ -37,22 +37,29 @@ public class View extends JFrame{
 
 	private void init() {
 		generator = new Generator();
+		
         JPinicial = new JPanel(new FlowLayout());
+        
 		JLfile = new JLabel("Escolha abaixo arquivo XLS");
+		
 		JBfilechooser = new JButton("Clique para escolher");
 		JBfilechooser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-        		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        		int returnValue = jfc.showOpenDialog(null);
+//            	fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            	fileChooser = new JFileChooser();
+            	fileChooser.setCurrentDirectory(new File("C:\\Users\\ipdmartins\\Documents\\udesc\\7th_semester\\INC\\trabalho 1"));
+        		int returnValue = fileChooser.showOpenDialog(null);
         		if (returnValue == JFileChooser.APPROVE_OPTION) {
-        			selectedFile = jfc.getSelectedFile();
+        			selectedFile = fileChooser.getSelectedFile();
         		}
             }
         });
+		
 		JLthreshold = new JLabel("Defina o ft threshold entre 0-100");
 		TXTtreshold = new TextField();
 		TXTtreshold.setPreferredSize(new Dimension(120,30));
+		
 		JBstart = new JButton("Iniciar");
 		JBstart.setPreferredSize(new Dimension(140,30));
 		JBstart.addActionListener(new ActionListener() {
