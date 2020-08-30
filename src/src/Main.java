@@ -13,7 +13,9 @@ public class Main {
 	public static void main(String[] args) throws BiffException, IOException {
 		
 		Generator gen = new Generator();
-		gen.sheetReader();
+//		gen.sheetReader();
+		
+		View view = new View();
 		
 		int num [][] = new int [2][5];
 		int a = 1;
