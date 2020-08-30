@@ -20,5 +20,4 @@ public class NewOverall {
 		this.newOverall.add(overall);
 	}
 
-	
 }

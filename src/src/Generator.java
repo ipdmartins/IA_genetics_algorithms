@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 public class Generator {
 
 	private Workbook workbook;
@@ -26,12 +28,14 @@ public class Generator {
 	private int currentColumnNumber;
 	private int totalNumberRows;
 	private int threshold;
+	private ArrayList<Integer> idList;
+	private ArrayList<Integer> overallist;
+	
 	public void setThreshold(int threshold) {
 		this.threshold = threshold;
+		idList = new ArrayList<Integer>();
+		overallist = new ArrayList<Integer>();
 	}
-
-	private NewOverall overallObject = new NewOverall();
-	
 
 	public void sheetReader(String path) {
 		try {
@@ -83,16 +87,23 @@ public class Generator {
 					newOverall += spreadSheet[i][j];
 				}
 				spreadSheet[i][1] = newOverall / (columns - 2);
-				if (spreadSheet[i][1] >= 99) {
-					overallObject.setIdList(spreadSheet[i][0]);
-					overallObject.setIdList(spreadSheet[i][1]);
+				if (spreadSheet[i][1] >= threshold) {
+					idList.add(spreadSheet[i][0]);
+					overallist.add(spreadSheet[i][1]);
 				}
 			}
-			if (overallObject.getIdList().size() > 0) {
+			if (idList.size() > 0) {
 				cond = false;
 			}
 			newPopulation(columns);
 		}
+		System.out.println(idList.toString());
+		System.out.println(overallist.toString());
+
+		JOptionPane.showMessageDialog(null, "Found new overall\n"+ 
+				"ids: "+idList.toString()+"\n"+
+				"overall: "+overallist.toString());
+				
 	}
 
 	public void generateFitness() {
@@ -123,7 +134,6 @@ public class Generator {
 	}
 
 	public void pairsSelector() {
-		System.out.println();
 		Collections.sort(sortedFitness);// puting all elements in ascendent order
 		double biggestNumber = sortedFitness.get(sortedFitness.size() - 1);
 		int sortedNumber = 0;
@@ -260,7 +270,6 @@ public class Generator {
 	}
 
 	public void newPopulation(int columns) {
-		System.out.println();
 		System.out.println("New population after mutation");
 		for (int i = 1; i < totalNumberRows; i++) {
 			for (int j = 0; j < columns; j++) {

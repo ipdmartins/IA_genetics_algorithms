@@ -39,17 +39,6 @@ public class View extends JFrame{
 		generator = new Generator();
         JPinicial = new JPanel(new FlowLayout());
 		JLfile = new JLabel("Escolha abaixo arquivo XLS");
-		
-		JBstart = new JButton("Iniciar");
-		JBstart.setPreferredSize(new Dimension(140,30));
-		JBstart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	generator.setThreshold(Integer.parseInt(TXTtreshold.getText()));
-            	generator.sheetReader(selectedFile.getAbsolutePath());
-            }
-        });
-		
 		JBfilechooser = new JButton("Clique para escolher");
 		JBfilechooser.addActionListener(new ActionListener() {
             @Override
@@ -61,12 +50,19 @@ public class View extends JFrame{
         		}
             }
         });
-		
-		
 		JLthreshold = new JLabel("Defina o ft threshold entre 0-100");
 		TXTtreshold = new TextField();
 		TXTtreshold.setPreferredSize(new Dimension(120,30));
-		
+		JBstart = new JButton("Iniciar");
+		JBstart.setPreferredSize(new Dimension(140,30));
+		JBstart.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	generator.setThreshold(Integer.parseInt(TXTtreshold.getText()));
+            	generator.sheetReader(selectedFile.getAbsolutePath());
+            }
+        });
+
 		JPinicial.add(JLfile);
 		JPinicial.add(JBfilechooser);
 		JPinicial.add(JLthreshold);
@@ -75,9 +71,5 @@ public class View extends JFrame{
 		
 		add(JPinicial, BorderLayout.CENTER);
 	}
-	
-	
-	
-	
 	
 }
