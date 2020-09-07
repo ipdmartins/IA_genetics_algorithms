@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
+import java.sql.Timestamp;
 
 import javax.swing.JOptionPane;
 
@@ -29,9 +30,14 @@ public class Generator {
 	private int totalNumberRows;
 	private int threshold;
 	private int counter;
+	private boolean mutationOption;
 	private ArrayList<Integer> idList;
 	private ArrayList<Integer> overallist;
 	
+	public void setMutationOption(boolean mutationOption) {
+		this.mutationOption = mutationOption;
+	}
+
 	public void setThreshold(int threshold) {
 		this.threshold = threshold;
 	}
@@ -71,7 +77,10 @@ public class Generator {
 		System.out.println();
 
 		boolean cond = true;
-		counter = 0;
+		counter = 0;	
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		long start = System.nanoTime();
+		long end = 0;
 		while (cond) {
 			counter++;
 			for (int i = 2; i < columns; i++) {
@@ -101,7 +110,9 @@ public class Generator {
 			}
 			newPopulation(columns);
 		}
+		end = System.nanoTime() - start;
 		JOptionPane.showMessageDialog(null, "Found new threshold in "+counter+" generations\n"+ 
+				(end)+" nanoseconds"+"\n"+
 				"ids: "+idList.toString()+"\n"+
 				"overall: "+overallist.toString());
 	}
@@ -204,11 +215,20 @@ public class Generator {
 //		System.out.print("Index sorted for mutation: " + sortedMutationIndex + " , corresponding binary: " + mutation);
 
 		StringBuilder binaryMutate = new StringBuilder(mutation);
-		if (mutation.charAt(mutation.length() - 1) == '0') {
-			binaryMutate.setCharAt(mutation.length() - 1, '1');
-		} else {
-			binaryMutate.setCharAt(mutation.length() - 1, '0');
+		if(mutationOption) {
+			if (mutation.charAt(mutation.length() - 4) == '0') {
+				binaryMutate.setCharAt(mutation.length() - 4, '1');
+			} else {
+				binaryMutate.setCharAt(mutation.length() - 4, '0');
+			}
+		}else {
+			if (mutation.charAt(mutation.length() - 1) == '0') {
+				binaryMutate.setCharAt(mutation.length() - 1, '1');
+			} else {
+				binaryMutate.setCharAt(mutation.length() - 1, '0');
+			}
 		}
+
 
 		binariesForMutation.add(sortedMutationIndex, binaryMutate.toString());// replacing the mutated in the list
 //		System.out.println(" , binary mutated: " + binariesForMutation.get(sortedMutationIndex));

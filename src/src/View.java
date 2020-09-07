@@ -19,6 +19,8 @@ public class View extends JFrame{
 	private JLabel JLfile;
 	private JLabel JLthreshold;
 	private TextField TXTtreshold;
+	private JButton JBmutate4;
+	private JButton JBmutate6;
 	private JButton JBstart;
 	private JButton JBfilechooser;
 	private JFileChooser fileChooser;
@@ -27,7 +29,7 @@ public class View extends JFrame{
 	
 	public View(){
 		setTitle("SISTEMA ALGORITMOS GENÉTICOS");
-        setSize(200, 180);
+        setSize(225, 250);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,7 +62,25 @@ public class View extends JFrame{
 		TXTtreshold = new TextField();
 		TXTtreshold.setPreferredSize(new Dimension(120,30));
 		
-		JBstart = new JButton("Iniciar");
+		JBmutate4 = new JButton("Mutate position 4");
+		JBmutate4.setPreferredSize(new Dimension(140,30));
+		JBmutate4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	generator.setMutationOption(true);
+            }
+        });
+		
+		JBmutate6 = new JButton("Mutate position 6");
+		JBmutate6.setPreferredSize(new Dimension(140,30));
+		JBmutate6.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				generator.setMutationOption(false);
+			}
+		});
+		
+		JBstart = new JButton("INICIAR");
 		JBstart.setPreferredSize(new Dimension(140,30));
 		JBstart.addActionListener(new ActionListener() {
             @Override
@@ -74,6 +94,8 @@ public class View extends JFrame{
 		JPinicial.add(JBfilechooser);
 		JPinicial.add(JLthreshold);
 		JPinicial.add(TXTtreshold);
+		JPinicial.add(JBmutate4);
+		JPinicial.add(JBmutate6);
 		JPinicial.add(JBstart);
 		
 		add(JPinicial, BorderLayout.CENTER);
