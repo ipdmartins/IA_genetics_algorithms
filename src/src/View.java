@@ -29,11 +29,11 @@ public class View extends JFrame{
 	
 	public View(){
 		setTitle("SISTEMA ALGORITMOS GENÉTICOS");
-        setSize(225, 250);
+        setSize(250, 250);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+        
 		init();
 	}
 
@@ -48,9 +48,7 @@ public class View extends JFrame{
 		JBfilechooser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//            	fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-            	fileChooser = new JFileChooser();
-            	fileChooser.setCurrentDirectory(new File("C:\\Users\\ipdmartins\\Documents\\udesc\\7th_semester\\INC\\trabalho 1"));
+            	fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         		int returnValue = fileChooser.showOpenDialog(null);
         		if (returnValue == JFileChooser.APPROVE_OPTION) {
         			selectedFile = fileChooser.getSelectedFile();
@@ -68,15 +66,17 @@ public class View extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
             	generator.setMutationOption(true);
+            	JBmutate6.setEnabled(false);
             }
         });
 		
-		JBmutate6 = new JButton("Mutate position 6");
+		JBmutate6 = new JButton("Mutate position 7");
 		JBmutate6.setPreferredSize(new Dimension(140,30));
 		JBmutate6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				generator.setMutationOption(false);
+				JBmutate4.setEnabled(false);
 			}
 		});
 		
@@ -87,6 +87,8 @@ public class View extends JFrame{
             public void actionPerformed(ActionEvent e) {
             	generator.setThreshold(Integer.parseInt(TXTtreshold.getText()));
             	generator.sheetReader(selectedFile.getAbsolutePath());
+            	JBmutate4.setEnabled(true);
+            	JBmutate6.setEnabled(true);
             }
         });
 
@@ -99,6 +101,7 @@ public class View extends JFrame{
 		JPinicial.add(JBstart);
 		
 		add(JPinicial, BorderLayout.CENTER);
+		setVisible(true);
 	}
 	
 }

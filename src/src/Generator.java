@@ -7,7 +7,6 @@ import jxl.read.biff.BiffException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 import java.sql.Timestamp;
@@ -19,7 +18,6 @@ public class Generator {
 	private Workbook workbook;
 	private Sheet sheet;
 	private Cell cellReader;
-
 	private int[][] spreadSheet;
 	private double arrayFitness[][];
 	private ArrayList<Double> sortedFitness;
@@ -64,17 +62,13 @@ public class Generator {
 	public void arraySetter(int rows, int columns) {
 		String reader;
 
-		System.out.println("METHOD ARRAYSETTER: printing the table");
 		for (int i = 1; i < totalNumberRows; i++) {
 			for (int j = 0; j < columns; j++) {
 				cellReader = sheet.getCell(j, i);// column, row
 				reader = cellReader.getContents();
 				spreadSheet[i][j] = Integer.parseInt(reader);// column, row
-				System.out.print(spreadSheet[i][j] + " | ");
 			}
-			System.out.println();
 		}
-		System.out.println();
 
 		boolean cond = true;
 		counter = 0;	
@@ -133,13 +127,10 @@ public class Generator {
 			arrayFitness[i][2] = fitnessCalculus;// storing the fitness
 		}
 
-//		System.out.println("METHOD GENERATE FITNESS: My array fitness table");
 		// calculating the Pri only now because I need the totalFitness ready calculated
 		for (int i = 1; i < totalNumberRows; i++) {
 			arrayFitness[i][3] = (arrayFitness[i][2] / totalFitness) * 1000;
 			sortedFitness.add(arrayFitness[i][3]);// store in an arrayList to make easier to order them
-//			System.out.println(arrayFitness[i][0] + " | " + arrayFitness[i][1] + " | " + arrayFitness[i][2] + " | "
-//					+ arrayFitness[i][3]);
 		}
 		pairsSelector();
 	}
@@ -150,16 +141,14 @@ public class Generator {
 		int sortedNumber = 0;
 		while (selectedPairs.size() < (totalNumberRows / 2)) {
 			sortedNumber = random.nextInt((int) biggestNumber);
-//			System.out.print("sortedNumber: " + sortedNumber + " ");
+			
 			for (int j = 0; j < sortedFitness.size(); j++) {
 				if (j == 0 && sortedNumber <= sortedFitness.get(j)) {
 					selectedPairs.add(sortedFitness.get(j));
-//					System.out.println(" | corresponding table number " + sortedFitness.get(j));
 					sortedFitness.remove(j);
 					break;
 				} else if (j > 0 && sortedNumber > sortedFitness.get(j - 1) && sortedNumber <= sortedFitness.get(j)) {
 					selectedPairs.add(sortedFitness.get(j));
-//					System.out.println(" | corresponding table number " + sortedFitness.get(j));
 					sortedFitness.remove(j);
 					break;
 				}
@@ -169,8 +158,6 @@ public class Generator {
 	}
 
 	public void singlePointCrossover() {
-//		System.out.println();
-//		System.out.println("Corresponding position in the array");
 		int index[] = new int[selectedPairs.size()];
 		for (int i = 0; i < selectedPairs.size(); i++) {
 			for (int j = 0; j < arrayFitness.length; j++) {// number of lines
@@ -179,7 +166,6 @@ public class Generator {
 					break;
 				}
 			}
-//			System.out.print(index[i] + " | ");
 		}
 
 		double first = 0;
@@ -187,8 +173,7 @@ public class Generator {
 		String binary1 = "";
 		String binary2 = "";
 		int converter = 0;
-//		System.out.println();
-//		System.out.println();
+
 		for (int i = 0; i < index.length; i++) {
 			first = arrayFitness[index[i]][0];// getting the 1st chromosome from the table
 			converter = (int) first;
@@ -197,7 +182,6 @@ public class Generator {
 			converter = (int) second;
 			binary2 = String.valueOf(converter);// making it a string
 			i += 1;
-//			System.out.print("Binaries sent for crossing: " + binary1 + " , " + binary2);
 			auxiliarSingleCross(binary1, binary2);
 		}
 
@@ -211,9 +195,6 @@ public class Generator {
 
 		int sortedMutationIndex = random.nextInt(binariesForMutation.size());
 		String mutation = binariesForMutation.get(sortedMutationIndex);
-//		System.out.println();
-//		System.out.print("Index sorted for mutation: " + sortedMutationIndex + " , corresponding binary: " + mutation);
-
 		StringBuilder binaryMutate = new StringBuilder(mutation);
 		if(mutationOption) {
 			if (mutation.charAt(mutation.length() - 4) == '0') {
@@ -228,10 +209,7 @@ public class Generator {
 				binaryMutate.setCharAt(mutation.length() - 1, '0');
 			}
 		}
-
-
 		binariesForMutation.add(sortedMutationIndex, binaryMutate.toString());// replacing the mutated in the list
-//		System.out.println(" , binary mutated: " + binariesForMutation.get(sortedMutationIndex));
 
 		replacePopulation();
 	}
@@ -243,24 +221,17 @@ public class Generator {
 		String partIV = binary1.substring(binary1.length() / 2);
 		binariesForMutation.add(partI + partIII);
 		binariesForMutation.add(partII + partIV);
-//		System.out.print(" | binaries crossed: " + binariesForMutation.toString());
-//		System.out.println();
 	}
 
 	public void replacePopulation() {
-//		System.out.println();
-//		System.out.println("Population from the current column 6");
 		ArrayList<Integer> population = new ArrayList<Integer>();
 		for (int j = 0; j < totalNumberRows; j++) {
 			population.add(spreadSheet[j][currentColumnNumber]);
-//			System.out.print(spreadSheet[j][currentColumnNumber] + " ");
 		}
 
 		ArrayList<Integer> selectedNumbers = new ArrayList<Integer>();
 		int lowestIndex = 0;
 		int lowestNumber = 1000000;
-//		System.out.println();
-//		System.out.println();
 
 		for (int x = 0; x < binariesForMutation.size() - 1; x++) {
 			for (int i = 0; i < population.size(); i++) {
@@ -269,13 +240,10 @@ public class Generator {
 					lowestIndex = i;
 				}
 			}
-//			System.out.println("Lowest index picked: " + lowestIndex + ", corresponding lowest number: " + lowestNumber);
 			selectedNumbers.add(lowestNumber);
 			population.remove(lowestIndex);
 			lowestNumber = 1000000;
-//			System.out.println("Population after element removed: " + population.toString());
 		}
-//		System.out.println("Lowest numbers going for mutation: " + selectedNumbers.toString());
 
 		int newNumber = 0;
 		for (int i = 0; i < selectedNumbers.size(); i++) {
@@ -290,7 +258,6 @@ public class Generator {
 	}
 
 	public void newPopulation(int columns) {
-		System.out.println("New population after mutation");
 		for (int i = 1; i < totalNumberRows; i++) {
 			for (int j = 0; j < columns; j++) {
 				System.out.print(spreadSheet[i][j] + " | ");
